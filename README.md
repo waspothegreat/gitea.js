@@ -1,3 +1,3 @@
-# gitea.js
+# Gitea.js
 
 This is a (WIP) library for Gitea using its REST API.
