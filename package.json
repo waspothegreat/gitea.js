@@ -1,0 +1,17 @@
+{
+  "name": "gitea.js",
+  "version": "1.0.0",
+  "description": "A Gitea library for Node.JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gitea"
+  ],
+  "author": "Immo <seiryu@derg.immo>",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "node-superfetch": "^0.1.4"
+  }
+}
