@@ -14,6 +14,8 @@ class User extends Gitea {
         }
     }
     getUserInfo() {
-        return request.get(`${this._options}/api/v1/user?token=${this.token}`).then(r => r.body);
+        return request.get(`${this._options.url}/api/v1/user?token=${this.token}`).then(r => r.body).catch(e => {
+            throw new TypeError('Authentication failure, please provide a valid token')
+        });
     }
 }
