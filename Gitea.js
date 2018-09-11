@@ -1,7 +1,8 @@
 const request = require("node-superfetch");
 
-module.exports = class Gitea {
+class Gitea {
     constructor(options = {}) {
+        this.user = require('./User.js');
         this.options = options;
         this._version = require("./package.json").version;
         if (typeof this.options.url !== 'string') {
