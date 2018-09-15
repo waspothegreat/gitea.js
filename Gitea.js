@@ -24,26 +24,34 @@ module.exports = class Gitea {
     }
 
     async getUserInfo() {
-        return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch(() => {
-            throw new ReferenceError('Authentication failure, please provide a valid token');
+        return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch((err) => {
+            if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
+            if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
+            throw err;
         });
     }
 
     async getEmail() {
-        return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch(() => {
-            throw new ReferenceError('Authentication failure, please provide a valid token');
+        return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch((err) => {
+            if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
+            if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
+            throw err;
         })
     }
 
     async getFollowers() {
-        return request.get(new URL(`/api/v1/user/followers?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch(() => {
-            throw new ReferenceError('Authentication failure, please provide a valid token');
+        return request.get(new URL(`/api/v1/user/followers?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch((err) => {
+            if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
+            if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
+            throw err;
         })
     }
 
     async getFollowing() {
-        return request.get(new URL(`/api/v1/user/following?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch(() => {
-            throw new ReferenceError('Authentication failure, please provide a valid token');
+        return request.get(new URL(`/api/v1/user/following?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch((err) => {
+            if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
+            if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
+            throw err;
         })
     }
 
