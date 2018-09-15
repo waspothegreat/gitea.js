@@ -54,8 +54,9 @@ module.exports = class Gitea {
         return request.get(new URL(`/api/v1/repos/search`, this.options.url)).then(r => r.body.data);
     }
 
-    async makeRepository(params) {
-        return request.post(new URL("/api/v1/user/repos", this.options.url), { params });
+    async makeRepository({config}) {
+        console.log(config);
+//        return request.post(new URL(`/api/v1/user/repos?token=${this.token}`, this.options.url), { body: config, headers: {'Content-Type': 'application/json'} });
     }
 
     async getUsers() {
