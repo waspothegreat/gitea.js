@@ -22,7 +22,7 @@ module.exports = class User extends Gitea {
 
     getEmail() {
         return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch(() => {
-            throw new Reference('Authentication failure, please provide a valid token');
+            throw new ReferenceError('Authentication failure, please provide a valid token');
         })
     }
 }
