@@ -13,6 +13,7 @@ module.exports = class Gitea {
             throw new TypeError('Inputted url is not a string.');
         }
     }
+
     async version() {
         return request.get(new URL("/api/v1/version", this.options.url).href).then(ver => {
             let version = {};
@@ -21,6 +22,7 @@ module.exports = class Gitea {
             return version;
         });
     }
+
     async getUserInfo() {
         return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch(() => {
             throw new ReferenceError('Authentication failure, please provide a valid token');
@@ -29,6 +31,18 @@ module.exports = class Gitea {
 
     async getEmail() {
         return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch(() => {
+            throw new ReferenceError('Authentication failure, please provide a valid token');
+        })
+    }
+
+    async getFollowers() {
+        return request.get(new URL(`/api/v1/user/followers?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch(() => {
+            throw new ReferenceError('Authentication failure, please provide a valid token');
+        })
+    }
+
+    async getFollowing() {
+        return request.get(new URL(`/api/v1/user/following?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch(() => {
             throw new ReferenceError('Authentication failure, please provide a valid token');
         })
     }
