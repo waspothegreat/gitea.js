@@ -14,13 +14,13 @@ module.exports = class User extends Gitea {
         }
     }
     getUserInfo() {
-        return request.get(`${this.options.url}/api/v1/user?token=${this.token}`).then(r => r.body).catch(() => {
+        return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch(() => {
             throw new ReferenceError('Authentication failure, please provide a valid token');
         });
     }
 
     getEmail() {
-        return request.get(`${this.options.url}/api/v1/user/emails?token=${this.token}`).then(r => r.body).catch(() => {
+        return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url)).then(r => r.body).catch(() => {
             throw new Reference('Authentication failure, please provide a valid token');
         })
     }
