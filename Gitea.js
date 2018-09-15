@@ -46,5 +46,9 @@ module.exports = class Gitea {
             throw new ReferenceError('Authentication failure, please provide a valid token');
         })
     }
+
+    async getRepositories() {
+        return request.get(new URL(`/api/v1/repos/search`, this.options.url)).then(r => util.inspect(r.body.data));
+    }
 };
 
