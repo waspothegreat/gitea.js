@@ -60,7 +60,7 @@ module.exports = class Gitea {
     }
 
     async getUsers() {
-        return request.get(new URL(`/api/v1/users/search`)).then(r => require('util').inspect(r.body.data));
+        return request.get(new URL(`/api/v1/users/search`)).then(r => util.inspect(r.body.data));
     }
 };
 
