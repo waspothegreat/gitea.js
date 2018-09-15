@@ -8,7 +8,6 @@ module.exports = class Gitea {
         if (typeof this.token !== 'string') {
             throw new ReferenceError('Inputted token is not a string');
         }
-        this._version = require("./package.json").version;
         if (typeof this.options.url !== 'string') {
             throw new TypeError('Inputted url is not a string.');
         }
@@ -55,8 +54,16 @@ module.exports = class Gitea {
         return request.get(new URL(`/api/v1/repos/search`, this.options.url)).then(r => r.body.data);
     }
 
+    async makeRepository(params) {
+        return request.post(new URL("/api/v1/user/repos", this.options.url), params);
+    }
+
     async getUsers() {
         return request.get(new URL(`/api/v1/users/search`, this.options.url)).then(r => r.body.data);
+    }
+
+    async getStarredRepos() {
+        return request.get(new URL("/user/starred", this.options.url)).then(r => r.body.data);
     }
 };
 
