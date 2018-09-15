@@ -1,5 +1,6 @@
 const request = require('node-superfetch');
 const Gitea = require('./Gitea.js');
+const util = require('util');
 
 /**
  * @extends {Gitea}
@@ -20,7 +21,7 @@ module.exports = class User extends Gitea {
     }
 
     getEmail() {
-        return request.get(`${this.options.url}/api/v1/user/emails?token=${this.token}`).then(r => r.body).catch(() => {
+        return request.get(`${this.options.url}/api/v1/user/emails?token=${this.token}`).then(r => util.inspect(r.body)).catch(() => {
             throw new Reference('Authentication failure, please provide a valid token');
         })
     }
