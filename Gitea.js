@@ -21,13 +21,13 @@ module.exports = class Gitea {
             return version;
         });
     }
-    getUserInfo() {
+    async getUserInfo() {
         return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch(() => {
             throw new ReferenceError('Authentication failure, please provide a valid token');
         });
     }
 
-    getEmail() {
+    async getEmail() {
         return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch(() => {
             throw new ReferenceError('Authentication failure, please provide a valid token');
         })
