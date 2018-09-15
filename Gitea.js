@@ -3,6 +3,11 @@ const request = require("node-superfetch");
 module.exports = class Gitea {
     constructor(options = {}) {
         this.options = options;
+        this.token = this.options.token;
+        if (!this.token) throw new ReferenceError('No authentication token inputted');
+        if (typeof this.token !== 'string') {
+            throw new ReferenceError('Inputted token is not a string');
+        }
         this._version = require("./package.json").version;
         if (typeof this.options.url !== 'string') {
             throw new TypeError('Inputted url is not a string.');
@@ -16,6 +21,17 @@ module.exports = class Gitea {
             return version;
         });
         //return request.get(new (require('url')).URL('/api/v1/version', this.options.url)).then(ver => ({library: this._version, gitea: ver.body.version}));
+    }
+    getUserInfo() {
+        return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch(() => {
+            throw new ReferenceError('Authentication failure, please provide a valid token');
+        });
+    }
+
+    getEmail() {
+        return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url)).then(r => util.inspect(r.body)).catch(() => {
+            throw new ReferenceError('Authentication failure, please provide a valid token');
+        })
     }
 };
 
