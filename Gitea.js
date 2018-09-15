@@ -55,7 +55,7 @@ module.exports = class Gitea {
     }
 
     async makeRepository(params) {
-        return request.post(new URL("/api/v1/user/repos", this.options.url), params);
+        return request.post(new URL("/api/v1/user/repos", this.options.url), { params });
     }
 
     async getUsers() {

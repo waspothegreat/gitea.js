@@ -4,30 +4,30 @@ module.exports = class RepoBuilder {
     }
     autoInit() {
         this.config.auto_init = true;
-        return this.config;
+        return this;
     }
     setDescription(desc) {
         this.config.description = desc;
-        return this.config;
+        return this;
     }
     setGitIgnores(gitignores) {
         this.config.gitignores = gitignores;
-        return this.config;
+        return this;
     }
     setLicense(license) {
         this.config.license = license;
-        return this.config;
+        return this;
     }
     setName(name) {
         this.config.name = name;
-        return this.config;
+        return this;
     }
     private() {
         this.config.private = true;
-        return this.config;
+        return this;
     }
     setReadme(readme) {
         this.config.readme = readme;
-        return this.config;
+        return this;
     }
 }
