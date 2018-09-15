@@ -20,7 +20,6 @@ module.exports = class Gitea {
             version.gitea = ver.body.version;
             return version;
         });
-        //return request.get(new (require('url')).URL('/api/v1/version', this.options.url)).then(ver => ({library: this._version, gitea: ver.body.version}));
     }
     getUserInfo() {
         return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch(() => {
