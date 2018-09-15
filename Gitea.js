@@ -15,12 +15,8 @@ module.exports = class Gitea {
     }
 
     async version() {
-        return request.get(new URL("/api/v1/version", this.options.url).href).then(ver => {
-            let version = {};
-            version.lib = this._version;
-            version.gitea = ver.body.version;
-            return version;
-        });
+        var ver = await request.get(new URL("/api/v1/version", this.options.url).href);
+        return { lib: this._version, gitea: ver.body.version };
     }
 
     async getUserInfo() {
