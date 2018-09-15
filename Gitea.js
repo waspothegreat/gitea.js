@@ -50,5 +50,9 @@ module.exports = class Gitea {
     async getRepositories() {
         return request.get(new URL(`/api/v1/repos/search`, this.options.url)).then(r => util.inspect(r.body.data));
     }
+
+    async getUsers() {
+        return request.get(new URL(`/api/v1/users/search`)).then(r => require('util').inspect(r.body.data));
+    }
 };
 
