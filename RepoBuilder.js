@@ -4,7 +4,7 @@ module.exports = class RepoBuilder {
     }
 
     /**
-    * @returns {Booleen}
+    * @returns {Boolean}
     */
     autoInit() {
         this.config.auto_init = true;
@@ -42,7 +42,7 @@ module.exports = class RepoBuilder {
     }
 
     /**
-    * @returns {Booleen}
+    * @returns {Boolean}
     */
     private() {
         this.config.private = true;
