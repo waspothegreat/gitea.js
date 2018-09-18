@@ -76,7 +76,8 @@ module.exports = class Gitea {
      */
 
     async getRepository(owner, repo) {
-        if (!owner) throw new ReferenceError('Please provide an owner')
+        if (!owner) throw new ReferenceError('Please provide an owner');
+        if (!repo) throw new ReferenceError('Please provide a repository');
         return request.get(new URL(`/api/v1/repos/${owner}/${repo}`, this.options.url)).then(r => r.body).catch((err) => {
             if (err.status == 404) throw new ReferenceError('Please provide an existing repository/owner');
             if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
