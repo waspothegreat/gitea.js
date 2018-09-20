@@ -108,7 +108,7 @@ module.exports = class Gitea {
      * @param {string} owner Owner of the repository
      * @param {string} repo Name of the repository
      * @example
-     * Gitea.getRepository('waspothegreat', 'gitea.js');
+     * await Gitea.getRepository('waspothegreat', 'gitea.js');
      */
 
     async getRepository(owner, repo) {
