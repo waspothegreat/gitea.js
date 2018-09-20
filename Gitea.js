@@ -2,7 +2,7 @@ const request = require("node-superfetch");
 
 module.exports = class Gitea {
     /**
-    * @param {Object} [options]
+    * @param {Object} [options] Main options for the class
     */
     constructor(options = {}) {
         this.options = options;
@@ -74,8 +74,11 @@ module.exports = class Gitea {
     }
 
     /**
-     * @param {string} owner
-     * @param {string} repo
+     * Makes a `GET` request towards a repository in your hosted gitea instance
+     * @param {string} owner Owner of the repository
+     * @param {string} repo Name of the repository
+     * @example
+     * Gitea.getRepository('waspothegreat', 'gitea.js');
      */
 
     async getRepository(owner, repo) {
@@ -88,4 +91,3 @@ module.exports = class Gitea {
         })
     }
 };
-
