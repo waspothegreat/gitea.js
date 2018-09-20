@@ -55,7 +55,7 @@ module.exports = class Gitea {
     }
 
     /**
-    * @param {object} config
+    * @param {Object} config
     */
     async makeRepository({config}) {
         console.log(config);
