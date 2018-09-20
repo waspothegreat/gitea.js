@@ -11,16 +11,25 @@ module.exports = class Gitea {
         if (typeof this.token !== 'string') {
             throw new ReferenceError('Inputted token is not a string');
         }
+        if (!this.options.url) throw new ReferenceError('Please input a url');
         if (typeof this.options.url !== 'string') {
             throw new TypeError('Inputted url is not a string.');
         }
     }
 
+    /**
+    * Gets the current version of the gitea api
+    * @async
+    */
     async version() {
         var ver = await request.get(new URL("/api/v1/version", this.options.url));
         return ver.body.version;
     }
 
+    /**
+    * Gets user info of a registered user in the gitea instance
+    * @async
+    */
     async getUserInfo() {
         return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url)).then(r => r.body).catch((err) => {
             if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
@@ -29,6 +38,10 @@ module.exports = class Gitea {
         });
     }
 
+    /**
+    * Gets the email/emails of the registered user on the gitea instance
+    * @async
+    */
     async getEmail() {
         return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url)).then(r => r.body).catch((err) => {
             if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
@@ -37,6 +50,10 @@ module.exports = class Gitea {
         })
     }
 
+    /**
+    * Gets the registered users followers on the gitea instance
+    * @async
+    */
     async getFollowers() {
         return request.get(new URL(`/api/v1/user/followers?token=${this.token}`, this.options.url)).then(r => r.body).catch((err) => {
             if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
@@ -45,6 +62,10 @@ module.exports = class Gitea {
         })
     }
 
+    /**
+    * Gets what the registered user is following on the gitea instance
+    * @async
+    */
     async getFollowing() {
         return request.get(new URL(`/api/v1/user/following?token=${this.token}`, this.options.url)).then(r => r.body).catch((err) => {
             if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
@@ -53,6 +74,10 @@ module.exports = class Gitea {
         })
     }
 
+    /**
+    * Gets all the repositories on the gitea instance
+    * @async
+    */
     async getRepositories() {
         return request.get(new URL(`/api/v1/repos/search`, this.options.url)).then(r => r.body.data);
     }
@@ -65,6 +90,10 @@ module.exports = class Gitea {
 //        return request.post(new URL(`/api/v1/user/repos?token=${this.token}`, this.options.url), { body: config, headers: {'Content-Type': 'application/json'} });
     }
 
+    /**
+    * Gets all the registered users on the gitea instance
+    * @async
+    */
     async getUsers() {
         return request.get(new URL(`/api/v1/users/search`, this.options.url)).then(r => r.body.data);
     }
@@ -75,6 +104,7 @@ module.exports = class Gitea {
 
     /**
      * Makes a `GET` request towards a repository in your hosted gitea instance
+     * @async
      * @param {string} owner Owner of the repository
      * @param {string} repo Name of the repository
      * @example
