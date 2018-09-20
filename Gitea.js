@@ -1,6 +1,9 @@
 const request = require("node-superfetch");
 
 module.exports = class Gitea {
+    /**
+    * @param {Object} [options]
+    */
     constructor(options = {}) {
         this.options = options;
         this.token = this.options.token;
