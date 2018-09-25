@@ -87,9 +87,12 @@ module.exports = class Gitea {
     * @param {Object} config
     */
     async makeRepository({config}) {
-        return request.post(new URL(`/api/v1/user/repos?token=${this.token}`, this.options.url)).send(config)
+        if (typeof config !== 'object') {
+            throw new TypeError('Parameter is not an object')
+        } else {
+          return request.post(new URL(`/api/v1/user/repos?token=${this.token}`, this.options.url)).send(config)
     }
-
+    }
     /**
     * Gets all the registered users on the gitea instance
     * @async
