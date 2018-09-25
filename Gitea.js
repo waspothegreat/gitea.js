@@ -86,8 +86,7 @@ module.exports = class Gitea {
     * @param {Object} config
     */
     async makeRepository({config}) {
-        console.log(config);
-//        return request.post(new URL(`/api/v1/user/repos?token=${this.token}`, this.options.url), { body: config, headers: {'Content-Type': 'application/json'} });
+       return require('snekfetch').post(new URL(`/api/v1/user/repos?token=${this.token}`, this.options.url).send({ body: config, headers: {'Content-Type': 'application/json'});
     }
 
     /**
