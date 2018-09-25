@@ -83,6 +83,7 @@ module.exports = class Gitea {
     }
 
     /**
+    * Creates a repository using a configuration from the `RepoBuilder` class 
     * @param {Object} config
     */
     async makeRepository({config}) {
