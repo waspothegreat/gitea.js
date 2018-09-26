@@ -4,7 +4,7 @@ module.exports = class RepoBuilder {
     }
 
     /**
-    * @returns {Boolean}
+    * @returns {Object}
     */
     autoInit() {
         this.config.auto_init = true;
@@ -13,6 +13,7 @@ module.exports = class RepoBuilder {
 
     /**
     * @param {string} desc
+    * @returns {Object}
     */
     setDescription(desc) {
         this.config.description = desc;
@@ -20,6 +21,7 @@ module.exports = class RepoBuilder {
     }
     /**
     * @param {string} gitignores
+    * @returns {Object}
     */
     setGitIgnores(gitignores) {
         this.config.gitignores = gitignores;
@@ -27,6 +29,7 @@ module.exports = class RepoBuilder {
     }
     /**
     * @param {string} license
+    * @returns {Object}
     */
     setLicense(license) {
         this.config.license = license;
@@ -35,6 +38,7 @@ module.exports = class RepoBuilder {
 
     /**
     * @param {string} name
+    * @returns {Object}
     */
     setName(name) {
         this.config.name = name;
@@ -42,12 +46,17 @@ module.exports = class RepoBuilder {
     }
 
     /**
-    * @returns {Boolean}
+    * @returns {Object}
     */
     private() {
         this.config.private = true;
         return this;
     }
+
+    /**
+     * @param {string} readme 
+     * @returns {Object}
+     */
     setReadme(readme) {
         this.config.readme = readme;
         return this;

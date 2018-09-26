@@ -87,8 +87,12 @@ module.exports = class Gitea {
     * @param {Object} config
     */
     async makeRepository({config}) {
-        if (typeof config !== 'object') {
+        const props = [ "auto_init", "description", "gitignores", "license", "name", "private", "readme" ];
+        let missingProps = props.filter(key => !config.hasOwnProperty(key));
+        if (Object.prototype.toString.call(config) == '[object Object]') {
             throw new TypeError('Parameter is not an object')
+        } else if (missingProps.length) {
+            throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
         } else {
           return request.post(new URL(`/api/v1/user/repos?token=${this.token}`, this.options.url)).send(config)
     }
