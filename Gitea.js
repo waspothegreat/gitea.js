@@ -106,8 +106,24 @@ module.exports = class Gitea {
         return request.get(new URL(`/api/v1/users/search`, this.options.url).href).then(r => r.body.data);
     }
 
+    /**
+    * Gets a user by its username
+    * @param {string} username
+    * @async
+    * @example
+    * await Gitea.getUser('user1234');
+    */
+    async getUser(username) {
+      if (!username) throw new ReferenceError('Please provide a username');
+      return request.get(new URL(`/api/v1/users/${username}`, this.options.url).href).then(r => r.body).catch(errCheck);
+    }
+    
+    /**
+    * Gets the authenticated users starred repositories
+    * @async
+    */
     async getStarredRepos() {
-        return request.get(new URL("/user/starred", this.options.url).href).then(r => r.body.data);
+        return request.get(new URL(`/api/v1/user/starred?token=${this.token}`, this.options.url).href).then(r => r.body.data);
     }
 
     /**
