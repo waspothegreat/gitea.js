@@ -1,5 +1,5 @@
 const request = require("node-superfetch");
-const errCheck = (err) => {
+const errCheck = err => {
   if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
   else if (err.status == 404) throw new ReferenceError('Please provide an existing item');
   else if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
