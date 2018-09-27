@@ -33,7 +33,7 @@ module.exports = class Gitea {
     }
 
     /**
-    * Gets user info of a registered user in the gitea instance
+    * Gets user info of the authenticated user in the gitea instance
     * @async
     */
     async getUserInfo() {
