@@ -8,7 +8,7 @@ const errCheck = (err) => {
 
 module.exports = class Gitea {
     /**
-    * @param {Object} [options] Main options for the class
+    * @param {Object} options Main options for the class
     */
     constructor(options = {}) {
         this.options = options;
