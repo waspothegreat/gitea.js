@@ -74,7 +74,18 @@ module.exports = class Gitea {
 
     /**
     * Creates a repository using a configuration from the `RepoBuilder` class
+    * @async
     * @param {Object} config
+    * @example
+    * await Gitea.makeRepository({
+    * auto_init: false,
+    * description: '',
+    * gitignores: '',
+    * license: '',
+    * name: '',
+    * private: false,
+    * readme: ''
+    * });
     */
     async makeRepository({config}) {
         const props = [ "auto_init", "description", "gitignores", "license", "name", "private", "readme" ];
