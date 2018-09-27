@@ -1,4 +1,10 @@
 const request = require("node-superfetch");
+const errCheck = (err) => {
+  if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
+  else if (err.status == 404) throw new ReferenceError('Please provide an existing item');
+  else if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
+  else throw err;
+}
 
 module.exports = class Gitea {
     /**
@@ -31,11 +37,7 @@ module.exports = class Gitea {
     * @async
     */
     async getUserInfo() {
-        return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url).href).then(r => r.body).catch((err) => {
-            if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
-            if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
-            throw err;
-        });
+        return request.get(new URL(`/api/v1/user?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**
@@ -43,11 +45,7 @@ module.exports = class Gitea {
     * @async
     */
     async getEmail() {
-        return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url).href).then(r => r.body).catch((err) => {
-            if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
-            if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
-            throw err;
-        })
+        return request.get(new URL(`/api/v1/user/emails?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**
@@ -55,11 +53,7 @@ module.exports = class Gitea {
     * @async
     */
     async getFollowers() {
-        return request.get(new URL(`/api/v1/user/followers?token=${this.token}`, this.options.url).href).then(r => r.body).catch((err) => {
-            if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
-            if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
-            throw err;
-        })
+        return request.get(new URL(`/api/v1/user/followers?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**
@@ -67,11 +61,7 @@ module.exports = class Gitea {
     * @async
     */
     async getFollowing() {
-        return request.get(new URL(`/api/v1/user/following?token=${this.token}`, this.options.url).href).then(r => r.body).catch((err) => {
-            if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
-            if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
-            throw err;
-        })
+        return request.get(new URL(`/api/v1/user/following?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck)
     }
 
     /**
@@ -121,10 +111,6 @@ module.exports = class Gitea {
     async getRepository(owner, repo) {
         if (!owner) throw new ReferenceError('Please provide an owner');
         if (!repo) throw new ReferenceError('Please provide a repository');
-        return request.get(new URL(`/api/v1/repos/${owner}/${repo}`, this.options.url).href).then(r => r.body).catch((err) => {
-            if (err.status == 404) throw new ReferenceError('Please provide an existing repository/owner');
-            if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
-            throw err;
-        })
+        return request.get(new URL(`/api/v1/repos/${owner}/${repo}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 };
