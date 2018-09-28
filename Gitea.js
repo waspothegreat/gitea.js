@@ -149,8 +149,8 @@ module.exports = class Gitea {
     * @example
     * await Gitea.getUserRepository('user1234')
     */
-    
-    async getUserRepository(username) {
+
+    async getUserRepositories(username) {
       if (!username) throw new ReferenceError('Please provide a username');
       return request.get(new url.URL(`/api/v1/users/${username}/repos`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
