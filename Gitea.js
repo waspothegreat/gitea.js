@@ -141,4 +141,17 @@ module.exports = class Gitea {
         if (!repo) throw new ReferenceError('Please provide a repository');
         return request.get(new url.URL(`/api/v1/repos/${owner}/${repo}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
+
+    /**
+    * Gets the list of repositories a user has, will return an empty array if none
+    * @async
+    * @param {string} username
+    * @example
+    * await Gitea.getUserRepository('user1234')
+    */
+    
+    async getUserRepository(username) {
+      if (!username) throw new ReferenceError('Please provide a username');
+      return request.get(new url.URL(`/api/v1/users/${username}/repos`, this.options.url).href).then(r => r.body).catch(errCheck);
+    }
 };
