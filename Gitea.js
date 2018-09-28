@@ -41,7 +41,7 @@ module.exports = class Gitea {
     }
 
     /**
-    * Gets the email/emails of the registered user on the gitea instance
+    * Gets the email/emails of the authenticated user on the gitea instance
     * @async
     */
     async getEmail() {
@@ -49,7 +49,7 @@ module.exports = class Gitea {
     }
 
     /**
-    * Gets the registered users followers on the gitea instance
+    * Gets the authenticated user's followers on the gitea instance
     * @async
     */
     async getFollowers() {
@@ -57,7 +57,7 @@ module.exports = class Gitea {
     }
 
     /**
-    * Gets what the registered user is following on the gitea instance
+    * Gets what the authenticated user is following on the gitea instance
     * @async
     */
     async getFollowing() {
@@ -99,7 +99,7 @@ module.exports = class Gitea {
     }
     }
     /**
-    * Gets all the registered users on the gitea instance
+    * Gets all the authenticated user's on the gitea instance
     * @async
     */
     async getUsers() {
@@ -117,9 +117,9 @@ module.exports = class Gitea {
       if (!username) throw new ReferenceError('Please provide a username');
       return request.get(new URL(`/api/v1/users/${username}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
-    
+
     /**
-    * Gets the authenticated users starred repositories
+    * Gets the authenticated user's starred repositories
     * @async
     */
     async getStarredRepos() {
