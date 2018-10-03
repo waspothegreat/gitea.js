@@ -148,6 +148,20 @@ module.exports = class Gitea {
         }).then(r => r.body).catch(errCheck);
     }
 }
+  /**
+  * Follows an existing user on the gitea instance using the authenticated user
+  * @async
+  * @param {string} username - username of the user to follow
+  * @example
+  * await Gitea.followUser('user123');
+  */
+  async followUser(username) {
+    if (!username) throw new ReferenceError('Please provide a username');
+    if (typeof username !== 'string') {
+      throw new TypeError('Please provide a string')
+    }
+    return request.put(new url.URL(`/api/v1/user/following/${username}?token=${this.token}`, this.options.url).href).catch(errCheck);
+  }
     /**
      * Makes a `GET` request towards a repository in your hosted gitea instance
      * @async
