@@ -76,7 +76,7 @@ module.exports = class Gitea {
     /**
     * Creates a repository using a configuration from the `RepoBuilder` class
     * @async
-    * @param {Object} config
+    * @param {Object} config - configuration for the created repository
     * @example
     * await Gitea.makeRepository({
     * auto_init: false,
@@ -96,7 +96,7 @@ module.exports = class Gitea {
         } else if (missingProps.length) {
             throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
         } else {
-          return request.post(new url.URL(`/api/v1/user/repos?token=${this.token}`, this.options.url).href).send(config)
+          return request.post(new url.URL(`/api/v1/user/repos?token=${this.token}`, this.options.url).href).send(config).then(r => r.body)
     }
     }
     /**
@@ -127,6 +127,22 @@ module.exports = class Gitea {
         return request.get(new url.URL(`/api/v1/user/starred?token=${this.token}`, this.options.url).href).then(r => r.body.data);
     }
 
+    /**
+    * Adds an email to the authenticated user
+    * @async
+    * @param {string[]} emails - Array of emails to be passed
+    */
+
+    async addUserEmail(emails) {
+      if (!Array.isArray(emails)) {
+      throw new ReferenceError('Please provide an array');
+    } else if (!emails.length) {
+      throw new ReferenceError('Please provide an email in the array');
+    } else {
+      return request.post(new url.URL(`/api/v1/user/emails?token=${this.token}`, this.options.url).href).send({"emails": emails}).then(r => r.body).catch(errCheck);
+    }
+
+    }
     /**
      * Makes a `GET` request towards a repository in your hosted gitea instance
      * @async
