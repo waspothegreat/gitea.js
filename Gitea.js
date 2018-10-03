@@ -134,15 +134,16 @@ module.exports = class Gitea {
     */
 
     async addUserEmail(emails) {
-      if (!Array.isArray(emails)) {
-      throw new ReferenceError('Please provide an array');
+    if (!Array.isArray(emails)) {
+        throw new ReferenceError('Please provide an array');
     } else if (!emails.length) {
-      throw new ReferenceError('Please provide an email in the array');
+        throw new ReferenceError('Please provide an email in the array');
     } else {
-      return request.post(new url.URL(`/api/v1/user/emails?token=${this.token}`, this.options.url).href).send({"emails": emails}).then(r => r.body).catch(errCheck);
+        return request.post(new url.URL(`/api/v1/user/emails?token=${this.token}`, this.options.url).href).send({
+            "emails": emails
+        }).then(r => r.body).catch(errCheck);
     }
-
-    }
+}
     /**
      * Makes a `GET` request towards a repository in your hosted gitea instance
      * @async
