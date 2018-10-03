@@ -131,6 +131,10 @@ module.exports = class Gitea {
     * Adds an email to the authenticated user
     * @async
     * @param {string[]} emails - Array of emails to be passed
+    * @example
+    * await Gitea.addUserEmail([
+    *   'user1234@website.com'
+    *])
     */
 
     async addUserEmail(emails) {
