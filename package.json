@@ -12,6 +12,6 @@
   "author": "Immo <seiryu@derg.immo>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "node-superfetch": "^0.1.5"
+    "node-superfetch": "^0.1.9"
   }
 }
