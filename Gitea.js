@@ -93,7 +93,7 @@ module.exports = class Gitea {
       } else if (typeof repo !== 'string') {
         throw new TypeError('Repository name must be a string')
       }
-      return request.put(new url.URL(`/api/v1/user/${owner}/${repo}?token=${this.token}`, this.options.url).href).catch(errCheck);
+      return await request.put(new url.URL(`/api/v1/user/${owner}/${repo}?token=${this.token}`, this.options.url).href).catch(errCheck);
     }
     /**
     * Creates a repository using a configuration from the `RepoBuilder` class
