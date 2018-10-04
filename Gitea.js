@@ -28,7 +28,7 @@ module.exports = class Gitea {
     * Gets the current version of the gitea api
     * @async
     */
-    async version() {
+    async getVersion() {
         var ver = await request.get(new url.URL("/api/v1/version", this.options.url).href);
         return ver.body.version;
     }
