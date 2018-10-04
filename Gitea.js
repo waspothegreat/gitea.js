@@ -77,6 +77,25 @@ module.exports = class Gitea {
     }
 
     /**
+    * Stars a specified repository using the authenticated user
+    * @async
+    * @param {string} [owner] owner of the repository
+    * @param {string} [repo] repository name to be specified
+    * @example
+    * await Gitea.starRepo('user123', 'repository');
+    */
+
+    async starRepo(owner, repo) {
+      if (!username) throw new ReferenceError('Please provide a username');
+      if (!repo) throw new ReferenceError('Please provide a repository name');
+      if (typeof owner !== 'string') {
+        throw new TypeError('Owner must be a string')
+      } else if (typeof repo !== 'string') {
+        throw new TypeError('Repository name must be a string')
+      }
+      return request.put(new url.URL(`/api/v1/user/${owner}/${repo}?token=${this.token}`, this.options.url).href).catch(errCheck);
+    }
+    /**
     * Creates a repository using a configuration from the `RepoBuilder` class
     * @async
     * @param {Object} config - configuration for the created repository
