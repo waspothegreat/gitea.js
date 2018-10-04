@@ -33,6 +33,9 @@ module.exports = class Gitea {
         return ver.body.version;
     }
 
+    get version() {
+      return require('./package.json').version;
+    }
     /**
     * Gets user info of the authenticated user in the gitea instance
     * @async
