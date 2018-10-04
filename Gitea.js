@@ -38,7 +38,7 @@ module.exports = class Gitea {
     * @async
     */
     async getUserInfo() {
-        return request.get(new url.URL(`/api/v1/user?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
+        return await request.get(new url.URL(`/api/v1/user?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**
@@ -46,7 +46,7 @@ module.exports = class Gitea {
     * @async
     */
     async getEmail() {
-        return request.get(new url.URL(`/api/v1/user/emails?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
+        return await request.get(new url.URL(`/api/v1/user/emails?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**
@@ -54,7 +54,7 @@ module.exports = class Gitea {
     * @async
     */
     async getFollowers() {
-        return request.get(new url.URL(`/api/v1/user/followers?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
+        return await request.get(new url.URL(`/api/v1/user/followers?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**
@@ -62,7 +62,7 @@ module.exports = class Gitea {
     * @async
     */
     async getFollowing() {
-        return request.get(new url.URL(`/api/v1/user/following?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck)
+        return await request.get(new url.URL(`/api/v1/user/following?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck)
     }
 
     /**
@@ -70,7 +70,7 @@ module.exports = class Gitea {
     * @async
     */
     async getRepositories() {
-        return request.get(new url.URL(`/api/v1/repos/search`, this.options.url).href).then(r => r.body.data);
+        return await request.get(new url.URL(`/api/v1/repos/search`, this.options.url).href).then(r => r.body.data);
     }
 
     /**
@@ -96,7 +96,7 @@ module.exports = class Gitea {
         } else if (missingProps.length) {
             throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
         } else {
-          return request.post(new url.URL(`/api/v1/user/repos?token=${this.token}`, this.options.url).href).send(config).then(r => r.body)
+          return await request.post(new url.URL(`/api/v1/user/repos?token=${this.token}`, this.options.url).href).send(config).then(r => r.body)
     }
     }
     /**
@@ -104,7 +104,7 @@ module.exports = class Gitea {
     * @async
     */
     async getUsers() {
-        return request.get(new url.URL(`/api/v1/users/search`, this.options.url).href).then(r => r.body.data);
+        return await request.get(new url.URL(`/api/v1/users/search`, this.options.url).href).then(r => r.body.data);
     }
 
     /**
@@ -116,7 +116,7 @@ module.exports = class Gitea {
     */
     async getUser(username) {
       if (!username) throw new ReferenceError('Please provide a username');
-      return request.get(new url.URL(`/api/v1/users/${username}`, this.options.url).href).then(r => r.body).catch(errCheck);
+      return await request.get(new url.URL(`/api/v1/users/${username}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**
@@ -124,7 +124,7 @@ module.exports = class Gitea {
     * @async
     */
     async getStarredRepos() {
-        return request.get(new url.URL(`/api/v1/user/starred?token=${this.token}`, this.options.url).href).then(r => r.body.data);
+        return await request.get(new url.URL(`/api/v1/user/starred?token=${this.token}`, this.options.url).href).then(r => r.body.data);
     }
 
     /**
@@ -143,7 +143,7 @@ module.exports = class Gitea {
     } else if (!emails.length) {
         throw new ReferenceError('Please provide an email in the array');
     } else {
-        return request.post(new url.URL(`/api/v1/user/emails?token=${this.token}`, this.options.url).href).send({
+        return await request.post(new url.URL(`/api/v1/user/emails?token=${this.token}`, this.options.url).href).send({
             "emails": emails
         }).then(r => r.body).catch(errCheck);
     }
@@ -160,7 +160,7 @@ module.exports = class Gitea {
     if (typeof username !== 'string') {
       throw new TypeError('Please provide a string')
     }
-    return request.put(new url.URL(`/api/v1/user/following/${username}?token=${this.token}`, this.options.url).href).catch(errCheck);
+    return await request.put(new url.URL(`/api/v1/user/following/${username}?token=${this.token}`, this.options.url).href).catch(errCheck);
   }
     /**
      * Makes a `GET` request towards a repository in your hosted gitea instance
@@ -174,7 +174,7 @@ module.exports = class Gitea {
     async getRepository(owner, repo) {
         if (!owner) throw new ReferenceError('Please provide an owner');
         if (!repo) throw new ReferenceError('Please provide a repository');
-        return request.get(new url.URL(`/api/v1/repos/${owner}/${repo}`, this.options.url).href).then(r => r.body).catch(errCheck);
+        return await request.get(new url.URL(`/api/v1/repos/${owner}/${repo}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**
@@ -187,6 +187,6 @@ module.exports = class Gitea {
 
     async getUserRepositories(username) {
       if (!username) throw new ReferenceError('Please provide a username');
-      return request.get(new url.URL(`/api/v1/users/${username}/repos`, this.options.url).href).then(r => r.body).catch(errCheck);
+      return await request.get(new url.URL(`/api/v1/users/${username}/repos`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 };
