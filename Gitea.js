@@ -86,14 +86,13 @@ module.exports = class Gitea {
     */
 
     async starRepo(owner, repo) {
-      if (!username) throw new ReferenceError('Please provide a username');
-      if (!repo) throw new ReferenceError('Please provide a repository name');
       if (typeof owner !== 'string') {
         throw new TypeError('Owner must be a string')
       } else if (typeof repo !== 'string') {
         throw new TypeError('Repository name must be a string')
-      }
+      } else {
       return await request.put(new url.URL(`/api/v1/user/${owner}/${repo}?token=${this.token}`, this.options.url).href).catch(errCheck);
+    }
     }
     /**
     * Creates a repository using a configuration from the `RepoBuilder` class
@@ -137,7 +136,6 @@ module.exports = class Gitea {
     * await Gitea.getUser('user1234');
     */
     async getUser(username) {
-      if (!username) throw new ReferenceError('Please provide a username');
       return await request.get(new url.URL(`/api/v1/users/${username}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
@@ -178,11 +176,11 @@ module.exports = class Gitea {
   * await Gitea.followUser('user123');
   */
   async followUser(username) {
-    if (!username) throw new ReferenceError('Please provide a username');
     if (typeof username !== 'string') {
       throw new TypeError('Please provide a string')
-    }
+    } else {
     return await request.put(new url.URL(`/api/v1/user/following/${username}?token=${this.token}`, this.options.url).href).catch(errCheck);
+  }
   }
     /**
      * Makes a `GET` request towards a repository in your hosted gitea instance
@@ -194,8 +192,6 @@ module.exports = class Gitea {
      */
 
     async getRepository(owner, repo) {
-        if (!owner) throw new ReferenceError('Please provide an owner');
-        if (!repo) throw new ReferenceError('Please provide a repository');
         return await request.get(new url.URL(`/api/v1/repos/${owner}/${repo}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
@@ -208,7 +204,6 @@ module.exports = class Gitea {
     */
 
     async getUserRepositories(username) {
-      if (!username) throw new ReferenceError('Please provide a username');
       return await request.get(new url.URL(`/api/v1/users/${username}/repos`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 };
