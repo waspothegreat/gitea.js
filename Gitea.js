@@ -182,6 +182,14 @@ module.exports = class Gitea {
         return await request.put(new url.URL(`/api/v1/user/following/${username}?token=${this.token}`, this.options.url).href).catch(errCheck);
     }
 }
+
+  async unfollowUser(username) {
+    if (typeof username !== 'string') {
+        throw new TypeError('Please provide a string')
+      } else {
+        return await request.delete(new url.URL(`/api/v1/user/following/${username}?token=${this.token}`, this.options.url).href).catch(errCheck);
+      }
+    }
     /**
      * Makes a `GET` request towards a repository in your hosted gitea instance
      * @async
