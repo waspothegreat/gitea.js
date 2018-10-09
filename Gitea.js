@@ -183,6 +183,13 @@ module.exports = class Gitea {
     }
 }
 
+  /**
+  * unfollows another user using the authenticated user
+  * @async
+  * @param {string} [username]
+  * @example
+  * await Gitea.unfollowUser('user123');
+  */
   async unfollowUser(username) {
     if (typeof username !== 'string') {
         throw new TypeError('Please provide a string')
