@@ -86,14 +86,14 @@ module.exports = class Gitea {
     */
 
     async starRepo(owner, repo) {
-      if (typeof owner !== 'string') {
+    if (typeof owner !== 'string') {
         throw new TypeError('Owner must be a string')
-      } else if (typeof repo !== 'string') {
+    } else if (typeof repo !== 'string') {
         throw new TypeError('Repository name must be a string')
-      } else {
-      return await request.put(new url.URL(`/api/v1/user/${owner}/${repo}?token=${this.token}`, this.options.url).href).catch(errCheck);
+    } else {
+        return await request.put(new url.URL(`/api/v1/user/${owner}/${repo}?token=${this.token}`, this.options.url).href).catch(errCheck);
     }
-    }
+}
     /**
     * Creates a repository using a configuration from the `RepoBuilder` class
     * @async
@@ -110,16 +110,16 @@ module.exports = class Gitea {
     * });
     */
     async makeRepository({config}) {
-        const props = [ "auto_init", "description", "gitignores", "license", "name", "private", "readme" ];
-        let missingProps = props.filter(key => !config.hasOwnProperty(key));
-        if (Object.prototype.toString.call(config) == '[object Object]') {
-            throw new TypeError('Parameter is not an object')
-        } else if (missingProps.length) {
-            throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
-        } else {
-          return await request.post(new url.URL(`/api/v1/user/repos?token=${this.token}`, this.options.url).href).send(config).then(r => r.body)
+    const props = ["auto_init", "description", "gitignores", "license", "name", "private", "readme"];
+    let missingProps = props.filter(key => !config.hasOwnProperty(key));
+    if (Object.prototype.toString.call(config) == '[object Object]') {
+        throw new TypeError('Parameter is not an object')
+    } else if (missingProps.length) {
+        throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
+    } else {
+        return await request.post(new url.URL(`/api/v1/user/repos?token=${this.token}`, this.options.url).href).send(config).then(r => r.body)
     }
-    }
+}
     /**
     * Gets all the authenticated user's on the gitea instance
     * @async
@@ -177,11 +177,11 @@ module.exports = class Gitea {
   */
   async followUser(username) {
     if (typeof username !== 'string') {
-      throw new TypeError('Please provide a string')
+        throw new TypeError('Please provide a string')
     } else {
-    return await request.put(new url.URL(`/api/v1/user/following/${username}?token=${this.token}`, this.options.url).href).catch(errCheck);
-  }
-  }
+        return await request.put(new url.URL(`/api/v1/user/following/${username}?token=${this.token}`, this.options.url).href).catch(errCheck);
+    }
+}
     /**
      * Makes a `GET` request towards a repository in your hosted gitea instance
      * @async
