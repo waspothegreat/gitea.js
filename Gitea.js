@@ -129,6 +129,13 @@ module.exports = class Gitea {
     }
 
     /**
+    * Gets the authenticated users orgs. Returns an empty array if none are found.
+    * @async
+    */
+    async getUserOrgs() {
+      return await request.get(new url.URL(`/api/v1/user/orgs?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
+    }
+    /**
     * Gets a user by its username
     * @param {string} [username]
     * @async
