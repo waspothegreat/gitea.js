@@ -147,6 +147,23 @@ module.exports = class Gitea {
     }
 
     /**
+    * Gets a specified repositories labels
+    * @async
+    * @param {string} [owner] - owner of the repository
+    * @param {string} [repo] - name of the repository
+    * @example
+    * await Gitea.getRepositoryLabels('user123', 'repo');
+    */
+    async getRepositoryLabels(owner, repo) {
+      if (typeof owner !== 'string') {
+        throw new TypeError('Owner parameter must be a string')
+      } else if (typeof repo !== 'string') {
+        throw new TypeError('Repository name must be a string')
+      } else {
+        return await request.get(new url.URL(`/api/v1/repos/${owner}/${repo}/labels`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+    /**
     * Gets the authenticated user's starred repositories
     * @async
     */
