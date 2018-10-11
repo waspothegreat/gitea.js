@@ -12,7 +12,7 @@ module.exports = class RepoBuilder {
     }
 
     /**
-    * @param {string} desc
+    * @param {string} [desc]
     * @returns {Object}
     */
     setDescription(desc) {
@@ -20,7 +20,7 @@ module.exports = class RepoBuilder {
         return this;
     }
     /**
-    * @param {string} gitignores
+    * @param {string} [gitignores]
     * @returns {Object}
     */
     setGitIgnores(gitignores) {
@@ -28,7 +28,7 @@ module.exports = class RepoBuilder {
         return this;
     }
     /**
-    * @param {string} license
+    * @param {string} [license]
     * @returns {Object}
     */
     setLicense(license) {
@@ -37,7 +37,7 @@ module.exports = class RepoBuilder {
     }
 
     /**
-    * @param {string} name
+    * @param {string} [name]
     * @returns {Object}
     */
     setName(name) {
@@ -54,7 +54,7 @@ module.exports = class RepoBuilder {
     }
 
     /**
-     * @param {string} readme 
+     * @param {string} [readme] 
      * @returns {Object}
      */
     setReadme(readme) {
