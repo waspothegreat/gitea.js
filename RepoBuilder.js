@@ -12,7 +12,7 @@ module.exports = class RepoBuilder {
     }
 
     /**
-    * @param {string} [desc]
+    * @param {string} [desc] - The description of the repository
     * @returns {Object}
     */
     setDescription(desc) {
@@ -20,7 +20,7 @@ module.exports = class RepoBuilder {
         return this;
     }
     /**
-    * @param {string} [gitignores]
+    * @param {string} [gitignores] - Name's of the files to ignore in the repository
     * @returns {Object}
     */
     setGitIgnores(gitignores) {
@@ -37,7 +37,7 @@ module.exports = class RepoBuilder {
     }
 
     /**
-    * @param {string} [name]
+    * @param {string} [name] - Name of the repository
     * @returns {Object}
     */
     setName(name) {
@@ -54,7 +54,7 @@ module.exports = class RepoBuilder {
     }
 
     /**
-     * @param {string} [readme] 
+     * @param {string} [readme] - The string to input inside the README.md file
      * @returns {Object}
      */
     setReadme(readme) {
