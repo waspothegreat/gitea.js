@@ -9,7 +9,7 @@ const errCheck = err => {
 
 module.exports = class Gitea {
     /**
-    * @param {Object} options Main options for the class
+    * @param {Object} options - Main options for the class
     */
     constructor(options = {}) {
         this.options = options;
@@ -79,8 +79,8 @@ module.exports = class Gitea {
     /**
     * Stars a specified repository using the authenticated user
     * @async
-    * @param {string} [owner] owner of the repository
-    * @param {string} [repo] repository name to be specified
+    * @param {string} owner - owner of the repository
+    * @param {string} repo - repository name to be specified
     * @example
     * await Gitea.starRepo('user123', 'repository');
     */
@@ -137,7 +137,7 @@ module.exports = class Gitea {
     }
     /**
     * Gets a user by its username
-    * @param {string} [username]
+    * @param {string} username - Username to be specified
     * @async
     * @example
     * await Gitea.getUser('user1234');
@@ -149,8 +149,8 @@ module.exports = class Gitea {
     /**
     * Gets a specified repositories labels
     * @async
-    * @param {string} [owner] - owner of the repository
-    * @param {string} [repo] - name of the repository
+    * @param {string} owner - owner of the repository
+    * @param {string} repo - name of the repository
     * @example
     * await Gitea.getRepositoryLabels('user123', 'repo');
     */
@@ -195,7 +195,7 @@ module.exports = class Gitea {
   /**
   * Follows an existing user on the gitea instance using the authenticated user
   * @async
-  * @param {string} [username] - username of the user to follow
+  * @param {string} username - username of the user to follow
   * @example
   * await Gitea.followUser('user123');
   */
@@ -210,7 +210,7 @@ module.exports = class Gitea {
   /**
   * unfollows another user using the authenticated user
   * @async
-  * @param {string} [username]
+  * @param {string} username - username of the user to unfollow
   * @example
   * await Gitea.unfollowUser('user123');
   */
@@ -224,8 +224,8 @@ module.exports = class Gitea {
     /**
      * Makes a `GET` request towards a repository in your hosted gitea instance
      * @async
-     * @param {string} [owner] Owner of the repository
-     * @param {string} [repo] Name of the repository
+     * @param {string} owner - Owner of the repository
+     * @param {string} repo - Name of the repository
      * @example
      * await Gitea.getRepository('waspothegreat', 'gitea.js');
      */
@@ -237,7 +237,7 @@ module.exports = class Gitea {
     /**
     * Gets the list of repositories a user has, will return an empty array if none
     * @async
-    * @param {string} [username]
+    * @param {string} username - username to specify
     * @example
     * await Gitea.getUserRepository('user1234')
     */
