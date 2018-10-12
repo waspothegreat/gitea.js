@@ -112,7 +112,7 @@ module.exports = class Gitea {
       } else if (typeof org !== 'string') {
         throw new TypeError('Organization name must be a string')
       } else {
-        return await request.post(new url.URL(`/api/v1/repos/${owner}/${repo}/forks`, this.options.url).href).send({"organization": org}).then(r => r.body).catch(errCheck);
+        return await request.post(new url.URL(`/api/v1/repos/${owner}/${repo}/forks?token=${this.token}`, this.options.url).href).send({"organization": org}).then(r => r.body).catch(errCheck);
       }
     }
     /**
