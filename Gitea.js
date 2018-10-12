@@ -93,6 +93,28 @@ module.exports = class Gitea {
         return await request.get(new url.URL(`/api/v1/repos/${owner}/${repo}/forks`, this.options.url).href).then(r => r.body).catch(errCheck);
       }
     }
+
+    /**
+    * Forks a specified repository. Can only fork using the name of a organization that you own.
+    * @async
+    * @param {string} owner - Owner of the repository to be specified
+    * @param {string} repo - Repository name to be specified
+    * @param {string} org - Organization name to be specified
+    * @example
+    * await Gitea.forkRepository('user123', 'repository', 'my-organization');
+    */
+
+    async forkRepository(owner, repo, org) {
+      if (typeof owner !== 'string') {
+          throw new TypeError('Owner must be a string')
+      } else if (typeof repo !== 'string') {
+          throw new TypeError('Repository name must be a string')
+      } else if (typeof org !== 'string') {
+        throw new TypeError('Organization name must be a string')
+      } else {
+        return await request.post(new url.URL(`/api/v1/repos/${owner}/${repo}/forks`, this.options.url).href).send({"organization": org}).then(r => r.body).catch(errCheck);
+      }
+    }
     /**
     * Stars a specified repository using the authenticated user
     * @async
@@ -101,7 +123,6 @@ module.exports = class Gitea {
     * @example
     * await Gitea.starRepo('user123', 'repository');
     */
-
     async starRepo(owner, repo) {
     if (typeof owner !== 'string') {
         throw new TypeError('Owner must be a string')
