@@ -77,6 +77,23 @@ module.exports = class Gitea {
     }
 
     /**
+    * List's a specified repository's forks
+    * @async
+    * @param {string} owner - Owner to be specified
+    * @param {string} repo - Repository name to be specified
+    * @example
+    * await Gitea.getRepositoryForks('user123', 'Repository');
+    */
+    async getRepositoryForks(owner, repo) {
+      if (typeof owner !== 'string') {
+        throw new TypeError('Please provide a owner name');
+      } else if (typeof repo !== 'string') {
+        throw new TypeError('Please provide a repository name');
+      } else {
+        return await request.get(new url.URL(`/api/v1/repos/${owner}/${repo}/forks`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+    /**
     * Stars a specified repository using the authenticated user
     * @async
     * @param {string} owner - owner of the repository
