@@ -12,7 +12,13 @@ module.exports = class Gitea {
     * @param {Object} options - Main options for the class
     */
     constructor(options = {}) {
+        /**
+        * @type {Object}
+        */
         this.options = options;
+        /**
+        * @type {string}
+        */
         this.token = this.options.token;
         if (!this.token) throw new ReferenceError('No authentication token inputted');
         if (typeof this.token !== 'string') {
@@ -33,6 +39,10 @@ module.exports = class Gitea {
         return ver.body.version;
     }
 
+    /**
+    * Gets the current version of the lib
+    * @readonly
+    */
     get version() {
       return require('./package.json').version;
     }
@@ -95,7 +105,7 @@ module.exports = class Gitea {
     }
 
     /**
-    * Forks a specified repository. Can only fork using the name of a organization that you own.
+    * Forks a specified repository. Can only fork using an organization that you own.
     * @async
     * @param {string} owner - Owner of the repository to be specified
     * @param {string} repo - Repository name to be specified
@@ -115,6 +125,181 @@ module.exports = class Gitea {
         return await request.post(new url.URL(`/api/v1/repos/${owner}/${repo}/forks?token=${this.token}`, this.options.url).href).send({"organization": org}).then(r => r.body).catch(errCheck);
       }
     }
+
+    /**
+    * Gets an existing organization by its name
+    * @async
+    * @param {string} org - Organization name to be specified
+    * @example
+    * await Gitea.getOrganization('organization');
+    */
+
+    async getOrganization(org) {
+      if (typeof org !== 'string') {
+        throw new TypeError('Organization parameter is not a string')
+      } else {
+        return await request.get(new url.URL(`/api/v1/orgs/${org}`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Edits the description, full name, location, and website of an organization
+    * @async
+    * @param {string} org - Organization name to be passed
+    * @param {Object} config - configuration for the organization
+    * @example
+    * await Gitea.editOrganization('my-organization', {
+    * description: '',
+    * full_name: '',
+    * location: '',
+    * website: ''
+    * })
+    */
+
+    async editOrganization(org, config) {
+      const props = ["description", "full_name", "location", "website"];
+      let propsMissed = props.filter(key => !config.hasOwnProperty(key));
+      if (Object.prototype.toString.call(config) == '[object Object]') {
+          throw new TypeError('Parameter is not an object')
+      } else if (propsMissed.length) {
+          throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
+      } else {
+          return await request.patch(new url.URL(`/api/v1/orgs/${org}?token=${this.token}`, this.options.url).href).send(config).then(r => r.body).catch(errCheck)
+      }
+    }
+
+    /**
+    * Creates a repository within the organization.
+    * @async
+    * @param {string} org - Organization name to be passed
+    * @param {Object} config - Configuration to be passed for the repository using the RepoBuilder configuration
+    * @example
+    * await Gitea.createOrgRepo('my-organization', {
+    * auto_init: false,
+    * description: '',
+    * gitignores: '',
+    * license: '',
+    * name: '',
+    * private: false,
+    * readme: ''
+    * });
+    */
+
+    async createOrgRepo(org, {config}) {
+      const props = ["auto_init", "description", "gitignores", "license", "name", "private", "readme"];
+      let propsMissed = props.filter(key => !config.hasOwnProperty(key));
+      if (typeof org !== 'string') {
+        throw new TypeError('Organization parameter is not a string');
+      } else if (Object.prototype.toString.call(config) == '[object Object]') {
+          throw new TypeError('Parameter is not an object')
+      } else if (propsMissed.length) {
+          throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
+      } else {
+        return await request.post(new url.URL(`/api/v1/org/${org}/repos?token=${this.token}`, this.options.url).href).send(config).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Gets a list of members within the organization, will return an empty array if none are found
+    * @async
+    * @param {string} org - Organization name to be passed
+    * @example
+    * await Gitea.getOrgMembers('my-organization');
+    */
+    async getOrgMembers(org) {
+      if (typeof org !== 'string') {
+        throw new TypeError('Organization parameter must be a string')
+      } else {
+        return await request.get(new url.URL(`/api/v1/orgs/${org}/members`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Gets the list of webhooks from an organization you own. If none are found it will return an empty array.
+    * @async
+    * @param {string} org - Organization name to be passed
+    * @example
+    * await Gitea.getOrgWebhooks('my-organization');
+    */
+
+    async getOrgWebhooks(org) {
+      if (typeof org !== 'string') {
+        throw new TypeError('Organization name parameter is not a string')
+      } else {
+        return await request.get(new url.URL(`/api/v1/orgs/${org}/hooks`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Creates an Organization webhook
+    * @async
+    * @param {string} org - Organization name to be passed
+    * @example
+    * await Gitea.createOrgWebhook('my-organization');
+    */
+
+    async createOrgWebhook(org) {
+      if (typeof org !== 'string') {
+        throw new TypeError('Organization parameter is not a string')
+      } else {
+        return await request.post(new url.URL(`/api/v1/orgs/${org}/hooks?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Creates a team within an existing organization that you own
+    * @async
+    * @param {string} org - Organization name to be passed
+    * @param {string} [desc] - Description of the team to be passed
+    * @param {string} name - Name of the team to be passed
+    * @param {string} [perm] - Permission to be passed, default value is none
+    * @example
+    * await Gitea.createOrgRepo('my-organization', 'a team', 'my team', 'none');
+    */
+
+    async createOrgTeam(org, desc, name, perm) {
+      if (typeof org !== 'string') {
+        throw new TypeError('Organization name is not a string')
+      } else if (!perm) {
+        perm = "none"
+      } else if (!desc) {
+        desc = ""
+      } else if (name.length === 0) {
+        throw new ReferenceError('Please provide at least 1 character in the name')
+      } else {
+        return await request.post(new url.URL(`/api/v1/orgs/${org}/teams?token=${this.token}`, this.options.url).href).send({"description": description, "name": name, "permission": perm}).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Deletes an organization's webhook by id
+    * @async
+    * @param {string} org - Organization name to be passed
+    * @param {string} id - Id of the webhook to be passed
+    * @example
+    * await Gitea.deleteOrgHook('my-organization', '1234');
+    */
+
+    async deleteOrgHook(org, id) {
+      if (typeof org !== 'string') {
+        throw new TypeError('Organization parameter is not a string')
+      } else if (typeof id !== 'string') {
+        throw new TypeError('Hook id parameter is not a string')
+      } else {
+        return await request.delete(new url.URL(`/api/v1/orgs/${org}/hooks/${id}?token=${this.token}`, this.options.url).href).catch(errCheck);
+      }
+    }
+
+    async getOrgHook(org, id) {
+      if (typeof org !== 'string') {
+        throw new TypeError('Organization parameter is not a string')
+      } else if (typeof id !== 'string') {
+        throw new TypeError('Hook id parameter is not a string')
+      } else {
+        return await request.get(new url.URL(`/api/v1/orgs/${org}/hooks/${id}`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+
     /**
     * Stars a specified repository using the authenticated user
     * @async
@@ -155,7 +340,7 @@ module.exports = class Gitea {
     } else if (missingProps.length) {
         throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
     } else {
-        return await request.post(new url.URL(`/api/v1/user/repos?token=${this.token}`, this.options.url).href).send(config).then(r => r.body)
+        return await request.post(new url.URL(`/api/v1/user/repos?token=${this.token}`, this.options.url).href).send(config).then(r => r.body).catch(errCheck);
     }
 }
     /**
@@ -277,7 +462,7 @@ module.exports = class Gitea {
     * @async
     * @param {string} username - username to specify
     * @example
-    * await Gitea.getUserRepository('user1234')
+    * await Gitea.getUserRepositories('user1234')
     */
 
     async getUserRepositories(username) {
