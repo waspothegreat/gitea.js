@@ -25,6 +25,7 @@ export class Gitea {
   public getUsers(): Promise<object>;
   public getUserOrgs(): Promise<Array>;
   public getUser(username: string): Promise<Array>;
+  public searchTopic(topic: string | null): Promise<Array>;
   public getRepositoryLabels(owner: string, repo: string): Promise<Array>;
   public getStarredRepos(): Promise<object>;
   public addUserEmail(emails: string[]): Promise<Array>;

@@ -290,6 +290,14 @@ module.exports = class Gitea {
       }
     }
 
+    /**
+    * Gets an organization webhook by its id
+    * @async
+    * @param {string} org - Organization name to be passed
+    * @param {string} id - Id of the organization webhook to be passed
+    * @example
+    * await Gitea.getOrgHook('my-organization', '1234');
+    */
     async getOrgHook(org, id) {
       if (typeof org !== 'string') {
         throw new TypeError('Organization parameter is not a string')
@@ -299,6 +307,7 @@ module.exports = class Gitea {
         return await request.get(new url.URL(`/api/v1/orgs/${org}/hooks/${id}`, this.options.url).href).then(r => r.body).catch(errCheck);
       }
     }
+
 
     /**
     * Stars a specified repository using the authenticated user
@@ -367,6 +376,25 @@ module.exports = class Gitea {
     */
     async getUser(username) {
       return await request.get(new url.URL(`/api/v1/users/${username}`, this.options.url).href).then(r => r.body).catch(errCheck);
+    }
+
+    /**
+    * Searches a topic by name, If no parameter is inputted it will display all topics
+    * @async
+    * @param {string} topic - Topic parameter to be passed
+    * @example
+    * await Gitea.searchTopic('gitea');
+    */
+
+    async searchTopic(topic) {
+      if (typeof topic !== 'string') {
+        throw new TypeError('Topic parameter must be a string')
+      } else if (!topic) {
+        topic = null;
+        return await request.get(new url.URL(`/api/v1/topics/search`, this.options.url).href).then(r => r.body.topics).catch(errCheck);
+      } else {
+        return await request.get(new url.URL(`/api/v1/topics/search?q=${topic}`, this.options.url).href).then(r => r.body.topics).catch(errCheck);
+      }
     }
 
     /**
