@@ -267,7 +267,23 @@ module.exports = class Gitea {
       } else if (name.length === 0) {
         throw new ReferenceError('Please provide at least 1 character in the name')
       } else {
-        return await request.post(new url.URL(`/api/v1/orgs/${org}/teams?token=${this.token}`, this.options.url).href).send({"description": description, "name": name, "permission": perm}).then(r => r.body).catch(errCheck);
+        return await request.post(new url.URL(`/api/v1/orgs/${org}/teams?token=${this.token}`, this.options.url).href).send({"description": desc, "name": name, "permission": perm}).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Gets a list of teams from an organization, will return an empty array if none are found
+    * @async
+    * @param {string} org - Organization name to be passed
+    * @example
+    * await Gitea.getOrgTeams('my-org');
+    */
+
+    async getOrgTeams(org) {
+      if (typeof org !== 'string') {
+        throw new TypeError('Organization parameter is not a string')
+      } else {
+        return await request.get(new url.URL(`/api/v1/orgs/${org}/teams?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
       }
     }
 
