@@ -250,20 +250,16 @@ module.exports = class Gitea {
     * Creates a team within an existing organization that you own
     * @async
     * @param {string} org - Organization name to be passed
-    * @param {string} [desc] - Description of the team to be passed
+    * @param {string} desc - Description of the team to be passed
     * @param {string} name - Name of the team to be passed
-    * @param {string} [perm] - Permission to be passed, default value is none
+    * @param {string} perm - Permission to be passed, default value is none
     * @example
     * await Gitea.createOrgRepo('my-organization', 'a team', 'my team', 'none');
     */
 
-    async createOrgTeam(org, desc, name, perm) {
+    async createOrgTeam(org, name, desc, perm) {
       if (typeof org !== 'string') {
         throw new TypeError('Organization name is not a string')
-      } else if (!perm) {
-        perm = "none"
-      } else if (!desc) {
-        desc = ""
       } else if (name.length === 0) {
         throw new ReferenceError('Please provide at least 1 character in the name')
       } else {
