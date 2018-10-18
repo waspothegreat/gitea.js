@@ -379,25 +379,6 @@ module.exports = class Gitea {
     }
 
     /**
-    * Searches a topic by name, If no parameter is inputted it will display all topics
-    * @async
-    * @param {string} topic - Topic parameter to be passed
-    * @example
-    * await Gitea.searchTopic('gitea');
-    */
-
-    async searchTopic(topic) {
-      if (typeof topic !== 'string') {
-        throw new TypeError('Topic parameter must be a string')
-      } else if (!topic) {
-        topic = null;
-        return await request.get(new url.URL(`/api/v1/topics/search`, this.options.url).href).then(r => r.body.topics).catch(errCheck);
-      } else {
-        return await request.get(new url.URL(`/api/v1/topics/search?q=${topic}`, this.options.url).href).then(r => r.body.topics).catch(errCheck);
-      }
-    }
-
-    /**
     * Gets a specified repositories labels
     * @async
     * @param {string} owner - owner of the repository
