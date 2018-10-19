@@ -23,10 +23,9 @@ export class Gitea {
   public getOrgHook(org: string, id: string): Promise<Array>;
   public starRepo(owner: string, repo: string): Promise<void>;
   public makeRepository(config: object): Promise<object>;
-  public getUsers(): Promise<object>;
+  public getUsers(): Promise<Array>;
   public getUserOrgs(): Promise<Array>;
   public getUser(username: string): Promise<Array>;
-  public searchTopic(topic: string | null): Promise<Array>;
   public getRepositoryLabels(owner: string, repo: string): Promise<Array>;
   public getStarredRepos(): Promise<object>;
   public addUserEmail(emails: string[]): Promise<Array>;

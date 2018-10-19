@@ -159,7 +159,7 @@ module.exports = class Gitea {
     async editOrganization(org, config) {
       const props = ["description", "full_name", "location", "website"];
       let propsMissed = props.filter(key => !config.hasOwnProperty(key));
-      if (Object.prototype.toString.call(config) == '[object Object]') {
+      if (Object.prototype.toString.call(config) !== '[object Object]') {
           throw new TypeError('Parameter is not an object')
       } else if (propsMissed.length) {
           throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
@@ -190,7 +190,7 @@ module.exports = class Gitea {
       let propsMissed = props.filter(key => !config.hasOwnProperty(key));
       if (typeof org !== 'string') {
         throw new TypeError('Organization parameter is not a string');
-      } else if (Object.prototype.toString.call(config) == '[object Object]') {
+      } else if (Object.prototype.toString.call(config) !== '[object Object]') {
           throw new TypeError('Parameter is not an object')
       } else if (propsMissed.length) {
           throw new ReferenceError(`Please provide all the following objects: ${props.map(prop => prop).join(', ')}`)
