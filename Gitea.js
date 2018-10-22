@@ -2,7 +2,7 @@ const request = require("node-superfetch");
 const url = require('url');
 const errCheck = err => {
   if (err.status == 401) throw new ReferenceError('Authentication failure, please provide a valid token');
-  else if (err.status == 404) throw new ReferenceError('Please provide an existing item');
+  else if (err.status == 404) throw err;
   else if (err.status != undefined) throw new Error(`Error ${err.status}: ${err.statusText}`);
   else throw err;
 }
@@ -141,6 +141,69 @@ module.exports = class Gitea {
     }
 
     /**
+    * Lists the pull requests of a repository. Will return an empty array if none are found
+    * @async
+    * @param {string} owner - Owner name to be passed
+    * @param {string} repo - Repository name to be passed
+    * @example
+    * await Gitea.listPullRequests('user123', 'repository');
+    */
+
+    async listPullRequests(owner, repo) {
+      if (typeof owner !== 'string') {
+        throw new TypeError('Owner parameter must be a type of string')
+      } else if (typeof repo !== 'string') {
+        throw new TypeError('Repository parameter must be a type of string')
+      } else {
+        return await request.get(new url.URL(`/api/v1/repos/${owner}/${repo}/pulls`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Merges a pull request using a repository you own
+    * @async
+    * @param {string} owner - Owner name to be passed
+    * @param {string} repo - Repository name to be passed
+    * @param {number} index - Index number of the pull request to be passed
+    * @example
+    * await Gitea.mergePullRequest('user123', 'repository', 1);
+    */
+
+    async mergePullRequest(owner, repo, index) {
+      if (typeof owner !== 'string') {
+        throw new TypeError('Owner parameter must be a type of string')
+      } else if (typeof repo !== 'string') {
+        throw new TypeError('Repository parameter must be a type of string')
+      } else if (typeof index !== 'number') {
+        throw new TypeError('Index parameter must be a number')
+      } else {
+        return await request.post(new url.URL(`/api/v1/repos/${owner}/${repo}/pulls/${index}/merge?token=${this.token}`, this.options.url).href).catch(errCheck);
+      }
+    }
+    
+    /**
+    * Gets a pull request by its index number
+    * @async
+    * @param {string} owner - Owner name to be passed
+    * @param {string} repo - Repository name to be passed
+    * @param {number} index - Index of the PR to be passed
+    * @example
+    * await Gitea.getPullRequest('user123', 'repository', 1);
+    */
+
+    async getPullRequest(owner, repo, index) {
+      if (typeof owner !== 'string') {
+        throw new TypeError('Owner parameter must be a type of string')
+      } else if (typeof repo !== 'string') {
+        throw new TypeError('Repository parameter must be a type of string')
+      } else if (typeof index !== 'number') {
+        throw new TypeError('Index parameter must be a type of number')
+      } else {
+        return await request.get(new url.URL(`/api/v1/repos/${owner}/${repo}/pulls/${index}`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
     * Forks a specified repository. Can only fork using an organization that you own.
     * @async
     * @param {string} owner - Owner of the repository to be specified
@@ -149,7 +212,6 @@ module.exports = class Gitea {
     * @example
     * await Gitea.forkRepository('user123', 'repository', 'my-organization');
     */
-
     async forkRepository(owner, repo, org) {
       if (typeof owner !== 'string') {
           throw new TypeError('Owner must be a string')

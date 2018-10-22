@@ -11,6 +11,9 @@ export class Gitea {
   public getRepositories(): Promise<Array>;
   public getRepositoryForks(owner: string, repo: string): Promise<Array>;
   public createRepoHook(owner: string, repo: string, active: boolean, contenttype: string, url: string, events: Array, type: string): Promise<object>;
+  public listPullRequests(owner: string, repo: string): Promise<Array>;
+  public mergePullRequest(owner: string, repo: string, index: number): Promise<void>;
+  public getPullRequest(owner: string, repo: string, index: number): Promise<Array>;
   public forkRepository(owner: string, repo: string, org: string): Promise<Array>;
   public getOrganization(org: string): Promise<object>;
   public editOrganization(org: string, config: object): Promise<Array>;
