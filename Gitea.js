@@ -105,6 +105,42 @@ module.exports = class Gitea {
     }
 
     /**
+    * Creates a webhook in a repository you own using your authenticated user
+    * @async
+    * @param {string} owner - Owner name to be passed
+    * @param {string} repo - Repository name to be passed
+    * @param {boolean} active - Whether the webhook is active or not
+    * @param {string} contenttype - Content type to be passed
+    * @param {string} url - Payload url to be passed
+    * @param {Array} events - Event(s) to be passed
+    * @param {string} type - Webhook type to be passed
+    * @example
+    * await Gitea.createRepoHook('username', 'repository', false, 'json', 'https://yourwebhookpayloadurl', ['push'], 'gitea');
+    */
+
+    async createRepoHook(owner, repo, active, contenttype, url, events, type) {
+      const contenttypes = ['json', 'x-www-form-urlencoded'];
+      const eventsarray = ['create', 'delete', 'fork', 'push', 'issues', 'issue_comment', 'pull_request', 'repository', 'release' ];
+      const types = ['gitea', 'gogs', 'slack', 'discord', 'dingtalk'];
+      const config = {active: active, config: {content_type: contenttype, url: url}, events: events, type: type}
+      if (typeof owner !== 'string') {
+        throw new TypeError('Please provide a string for the owner parameter')
+      } else if (typeof repo !== 'string') {
+        throw new TypeError('Repository name is not a string')
+      } else if (typeof active !== 'boolean') {
+        throw new TypeError('Please provide either true or false for the active parameter')
+      } else if (!contenttypes.includes(config.config.content_type)) {
+        throw new ReferenceError(`Please provide one of the following content types: ${contenttypes.map(key => key).join(', ')}`)
+      } else if (eventsarray.some(v => config.events.includes(v)) == false) {
+        throw new ReferenceError(`Please provide one of the following events:\n ${eventsarray.map(events => events).join('\n')}`)
+      } else if (!types.includes(config.type)) {
+        throw new ReferenceError(`Webhook types must include one of the following: ${types.map(type => type).join(', ')}`);
+      } else {
+        return await request.post(new (require('url')).URL(`/api/v1/repos/${owner}/${repo}/hooks?token=${this.token}`, this.options.url).href).send(config).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
     * Forks a specified repository. Can only fork using an organization that you own.
     * @async
     * @param {string} owner - Owner of the repository to be specified
@@ -226,7 +262,7 @@ module.exports = class Gitea {
       if (typeof org !== 'string') {
         throw new TypeError('Organization name parameter is not a string')
       } else {
-        return await request.get(new url.URL(`/api/v1/orgs/${org}/hooks`, this.options.url).href).then(r => r.body).catch(errCheck);
+        return await request.get(new url.URL(`/api/v1/orgs/${org}/hooks?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
       }
     }
 
@@ -303,7 +339,7 @@ module.exports = class Gitea {
     }
 
     /**
-    * Gets an organization webhook by its id
+    * Gets an organization that you own's webhook by its id
     * @async
     * @param {string} org - Organization name to be passed
     * @param {string} id - Id of the organization webhook to be passed
@@ -316,7 +352,7 @@ module.exports = class Gitea {
       } else if (typeof id !== 'string') {
         throw new TypeError('Hook id parameter is not a string')
       } else {
-        return await request.get(new url.URL(`/api/v1/orgs/${org}/hooks/${id}`, this.options.url).href).then(r => r.body).catch(errCheck);
+        return await request.get(new url.URL(`/api/v1/orgs/${org}/hooks/${id}?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
       }
     }
 
@@ -412,7 +448,7 @@ module.exports = class Gitea {
     * @async
     */
     async getStarredRepos() {
-        return await request.get(new url.URL(`/api/v1/user/starred?token=${this.token}`, this.options.url).href).then(r => r.body.data);
+        return await request.get(new url.URL(`/api/v1/user/starred?token=${this.token}`, this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**

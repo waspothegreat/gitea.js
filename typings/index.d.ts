@@ -10,6 +10,7 @@ export class Gitea {
   public getFollowing(): Promise<Array>;
   public getRepositories(): Promise<Array>;
   public getRepositoryForks(owner: string, repo: string): Promise<Array>;
+  public createRepoHook(owner: string, repo: string, active: boolean, contenttype: string, url: string, events: Array, type: string): Promise<object>;
   public forkRepository(owner: string, repo: string, org: string): Promise<Array>;
   public getOrganization(org: string): Promise<object>;
   public editOrganization(org: string, config: object): Promise<Array>;
@@ -20,14 +21,14 @@ export class Gitea {
   public createOrgWebhook(org: string): Promise<Array>;
   public createOrgTeam(org: string, desc: string, name: string, perm: string): Promise<Array>;
   public deleteOrgHook(org: string, id: string): Promise<void>;
-  public getOrgHook(org: string, id: string): Promise<Array>;
+  public getOrgHook(org: string, id: string): Promise<object>;
   public starRepo(owner: string, repo: string): Promise<void>;
   public makeRepository(config: object): Promise<object>;
   public getUsers(): Promise<Array>;
   public getUserOrgs(): Promise<Array>;
   public getUser(username: string): Promise<Array>;
   public getRepositoryLabels(owner: string, repo: string): Promise<Array>;
-  public getStarredRepos(): Promise<object>;
+  public getStarredRepos(): Promise<Array>;
   public addUserEmail(emails: string[]): Promise<Array>;
   public followUser(username: string): Promise<void>;
   public unfollowUser(username: string): Promise<void>;

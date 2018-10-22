@@ -1,6 +1,6 @@
 {
   "name": "gitea.js",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A Gitea library for Node.JS",
   "main": "index.js",
   "typings": "typings/index.d.ts",
