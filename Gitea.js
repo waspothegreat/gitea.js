@@ -35,8 +35,7 @@ module.exports = class Gitea {
     * @async
     */
     async getVersion() {
-        var ver = await request.get(new url.URL("/api/v1/version", this.options.url).href);
-        return ver.body.version;
+        return await request.get(new url.URL('/api/v1/version', this.options.url).href).then(r => r.body).catch(errCheck);
     }
 
     /**
@@ -180,7 +179,7 @@ module.exports = class Gitea {
         return await request.post(new url.URL(`/api/v1/repos/${owner}/${repo}/pulls/${index}/merge?token=${this.token}`, this.options.url).href).catch(errCheck);
       }
     }
-    
+
     /**
     * Gets a pull request by its index number
     * @async
@@ -200,6 +199,40 @@ module.exports = class Gitea {
         throw new TypeError('Index parameter must be a type of number')
       } else {
         return await request.get(new url.URL(`/api/v1/repos/${owner}/${repo}/pulls/${index}`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Lists an existing repositories issues
+    * @async
+    * @param {string} owner - Owner name to be passed
+    * @param {string} repo - Repository name to be passed
+    * @example
+    * await Gitea.listRepoIssues('user123', 'repository');
+    */
+
+    async listRepoIssues(owner, repo) {
+      if (typeof owner !== 'string' || typeof repo !== 'string') {
+        throw new TypeError('Owner or Repository parameter must be a string')
+      } else {
+        return await request.get(new url.URL(`/api/v1/repos/${owner}/${repo}/issues`, this.options.url).href).then(r => r.body).catch(errCheck);
+      }
+    }
+
+    /**
+    * Lists the collaborators of a repository, will return an empty array if none are found
+    * @async
+    * @param {string} owner - Owner of the repository to be passed
+    * @param {string} repo - Repository name to be passed
+    * @example
+    * await Gitea.listRepoCollaborators('user123', 'repo');
+    */
+
+    async listRepoCollaborators(owner, repo) {
+      if (typeof owner !== 'string' || typeof repo !== 'string') {
+        throw new TypeError('Owner or Repository parameter must be a string')
+      } else {
+        return await request.get(new url.URL(`/api/v1/repos${owner}/${repo}/collaborators`, this.options.url).href).then(r => r.body).catch(errCheck);
       }
     }
 

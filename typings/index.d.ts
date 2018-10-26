@@ -3,7 +3,7 @@ declare module 'gitea.js' {
 export class Gitea {
   constructor(options: object);
   public readonly version: string;
-  public getVersion(): Promise<string>;
+  public getVersion(): Promise<object>;
   public getUserInfo(): Promise<object>;
   public getEmail(): Promise<Array>;
   public getFollowers(): Promise<Array>;
@@ -14,6 +14,8 @@ export class Gitea {
   public listPullRequests(owner: string, repo: string): Promise<Array>;
   public mergePullRequest(owner: string, repo: string, index: number): Promise<void>;
   public getPullRequest(owner: string, repo: string, index: number): Promise<Array>;
+  public listRepoIssues(owner: string, repo: string): Promise<Array>;
+  public listRepoCollaborators(owner: string, repo: string): Promise<Array>;
   public forkRepository(owner: string, repo: string, org: string): Promise<Array>;
   public getOrganization(org: string): Promise<object>;
   public editOrganization(org: string, config: object): Promise<Array>;
