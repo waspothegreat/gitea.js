@@ -36,7 +36,7 @@ export class Gitea {
   public getStarredRepos(): Promise<Array>;
   public addUserEmail(emails: string[]): Promise<Array>;
   public followUser(username: string): Promise<void>;
-  public unfollowUser(username: string): Promise<void>;
+  public unfollowUser(username: string): Promise<void>
   public getRepository(owner: string, repo: string): Promise<Array>;
   public getUserRepositories(username: string): Promise<Array>;
   }
@@ -48,7 +48,7 @@ export class RepoBuilder {
   public setGitIgnores(gitignores: string): this;
   public setLicense(license: string): this;
   public setName(name: string): this;
-  public private(): this;
+  public setPrivateBoolean(private: boolean): this;
   public setReadme(readme: string): this;
   }
 }

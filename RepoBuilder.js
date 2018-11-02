@@ -46,10 +46,11 @@ module.exports = class RepoBuilder {
     }
 
     /**
+    * @param {boolean} private - Whether it should be private or not
     * @returns {Object}
     */
-    private() {
-        this.config.private = true;
+    setPrivateBoolean(private) {
+        this.config.private = private;
         return this;
     }
 
