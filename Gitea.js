@@ -37,14 +37,6 @@ module.exports = class Gitea {
     async getVersion() {
         return await request.get(new url.URL('/api/v1/version', this.options.url).href).then(r => r.body).catch(errCheck);
     }
-
-    /**
-    * Gets the current version of the lib
-    * @readonly
-    */
-    get version() {
-      return require('./package.json').version;
-    }
     /**
     * Gets user info of the authenticated user in the gitea instance
     * @async
