@@ -16,7 +16,7 @@
     "node-superfetch": "^0.1.10"
   },
   "devDependencies": {
-    "@types/node": "^10.12.11",
+    "@types/node": "^16.4.1",
     "typescript": "^3.8.2"
   }
 }
